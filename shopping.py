@@ -62,25 +62,62 @@ def load_data(filename):
 
     evidence = []
     labels = []
+    months = {
+        "jan": 0, "feb": 1, "mar": 2, "apr": 3, "may": 4, "june": 5,
+        "jul": 6, "aug": 7, "sep": 8, "oct": 9, "nov": 10, "dec": 11
+    }
 
     with open(filename) as f:
-        for row in f:
+        reader = csv.DictReader(f)
+        for row in reader:
 
-            row = row.strip().split(",")
+            # Organise data into types
+            administrative = int(row["Administrative"])
+            administrative_duration = float(row["Administrative_Duration"])
+            informational = int(row["Informational"])
+            informational_duration = float(row["Informational_Duration"])
+            productrelated = int(row["ProductRelated"])
+            productrelated_duration = float(row["ProductRelated_Duration"])
+            bouncerates = float(row["BounceRates"])
+            exitrates = float(row["ExitRates"])
+            pagevalues = float(row["PageValues"])
+            specialday = float(row["SpecialDay"])
+            month = months[row["Month"].lower()]
+            operatingsystems = int(row["OperatingSystems"])
+            browser = int(row["Browser"])
+            region = int(row["Region"])
+            traffictype = int(row["TrafficType"])
+            visitortype = 0 if row["VisitorType"].lower() == 'new_visitor' else 1
+            weekend = int(row["Weekend"].lower() == "true")
+            revenue = int(row["Revenue"].lower() == "true")
+
 
             # Create list of evidence for current row
-            e = []
-            e.append(row[:17])
-
-            # Create list of label for current row
-            l = []
-            l.append(row[17:])
+            e = [
+                administrative, 
+                administrative_duration, 
+                informational, 
+                informational_duration, 
+                productrelated, 
+                productrelated_duration, 
+                bouncerates, 
+                exitrates, 
+                pagevalues, 
+                specialday, 
+                month, 
+                operatingsystems, 
+                browser, 
+                region, 
+                traffictype, 
+                visitortype, 
+                weekend
+            ]
             
             # Append these lists to their respective list
             evidence.append(e)
-            labels.append(l)
-        # print(f"{evidence = }")
-        # print(f"{labels = }")
+            labels.append([revenue])
+    
+    print(evidence, labels)
 
     return (evidence, labels)
 
