@@ -59,7 +59,30 @@ def load_data(filename):
     labels should be the corresponding list of labels, where each label
     is 1 if Revenue is true, and 0 otherwise.
     """
-    raise NotImplementedError
+
+    evidence = []
+    labels = []
+
+    with open(filename) as f:
+        for row in f:
+
+            row = row.strip().split(",")
+
+            # Create list of evidence for current row
+            e = []
+            e.append(row[:17])
+
+            # Create list of label for current row
+            l = []
+            l.append(row[17:])
+            
+            # Append these lists to their respective list
+            evidence.append(e)
+            labels.append(l)
+        # print(f"{evidence = }")
+        # print(f"{labels = }")
+
+    return (evidence, labels)
 
 
 def train_model(evidence, labels):
