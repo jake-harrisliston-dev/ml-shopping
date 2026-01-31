@@ -116,8 +116,6 @@ def load_data(filename):
             # Append these lists to their respective list
             evidence.append(e)
             labels.append([revenue])
-    
-    print(evidence, labels)
 
     return (evidence, labels)
 
