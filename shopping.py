@@ -115,10 +115,7 @@ def load_data(filename):
             
             # Append these lists to their respective list
             evidence.append(e)
-            labels.append([revenue])
-
-    print(f"Evidence: {evidence}")
-    print(f"Laels: {labels}")
+            labels.append(revenue)
 
     return (evidence, labels)
 
