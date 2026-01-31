@@ -117,6 +117,9 @@ def load_data(filename):
             evidence.append(e)
             labels.append([revenue])
 
+    print(f"Evidence: {evidence}")
+    print(f"Laels: {labels}")
+
     return (evidence, labels)
 
 
@@ -125,7 +128,10 @@ def train_model(evidence, labels):
     Given a list of evidence lists and a list of labels, return a
     fitted k-nearest neighbor model (k=1) trained on the data.
     """
-    raise NotImplementedError
+    knn = KNeighborsClassifier(n_neighbors=1)
+    knn.fit(evidence, labels)
+
+    return knn
 
 
 def evaluate(labels, predictions):
@@ -143,7 +149,26 @@ def evaluate(labels, predictions):
     representing the "true negative rate": the proportion of
     actual negative labels that were accurately identified.
     """
-    raise NotImplementedError
+    positive_correct = 0
+    positive_total = 0
+    negative_correct = 0
+    negative_total = 0
+
+    for i in range(len(labels)):
+        if labels[i] == 1:
+            positive_total += 1
+            if predictions[i] == 1:
+                positive_correct += 1
+        if labels[i] == 0:
+            negative_total += 1
+            if predictions[i] == 0:
+                negative_correct += 1
+    
+    sensitivity = positive_correct / positive_total
+    specificity = negative_correct / negative_total
+            
+
+    return (sensitivity, specificity)
 
 
 if __name__ == "__main__":
